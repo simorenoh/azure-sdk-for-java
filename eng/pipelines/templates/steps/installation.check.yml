@@ -34,5 +34,5 @@ steps:
           break
         }
       }
-    workingDirectory: $(Pipeline.Workspace)
+    workingDirectory: $(Pipeline.Workspace)/${{parameters.ArtifactName}}-signed/${{parameters.Artifact.groupId}}/${{parameters.Artifact.name}}
     displayName: "Verify Package Installation"
