@@ -5,6 +5,9 @@ parameters:
   - name: ArtifactName
     type: string
     default: "not-specified"
+  - name: RetryLimit
+    type: int
+    default: 30
 
 steps:
   - download: current
@@ -18,11 +21,11 @@ steps:
       # Write-Host "Rename-Item $($pomf) pom.xml"
       # Rename-Item $pomf pom.xml
       # Copy-Item "$(System.DefaultWorkingDirectory)/eng" "install-check-dir/${{ parameters.Artifact.name }}/eng" -Recurse
-      while ($retries++ -lt $RetryLimit) {
+      while ($retries++ -lt ${{parameters.RetryLimit}}) {
         Write-Host "mvn install -DpomFile $pomf $(DefaultOptions) -Dcheckstyle.skip=true"
         mvn install -DpomFile $pomf $(DefaultOptions) -Dcheckstyle.skip=true
         if ($LASTEXITCODE) {
-          if ($retries -ge $RetryLimit) {
+          if ($retries -ge ${{parameters.RetryLimit}}) {
             exit $LASTEXITCODE
           }
           Write-Host "Install failed, retrying in 1 minute..."
