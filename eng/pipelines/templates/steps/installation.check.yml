@@ -6,7 +6,7 @@ parameters:
     type: string
     default: "not-specified"
   - name: RetryLimit
-    type: int
+    type: number
     default: 30
 
 steps:
