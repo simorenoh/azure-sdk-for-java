@@ -12,7 +12,7 @@ public class RetryWithOptions {
     public RetryWithOptions() {
         this.initialBackoffIntervalMilliseconds = 10;
         this.maximumBackoffIntervalMilliseconds = 1000;
-        this.randomSaltMaxValueMilliseconds = null;
+        this.randomSaltMaxValueMilliseconds = 5;
         this.totalWaitTimeMilliseconds = 30000;
     }
 
@@ -96,7 +96,7 @@ public class RetryWithOptions {
      * from the exponential backoff subscribed. This covers errors that occur due to
      * concurrency errors in the store.
      * <p>
-     * The default value is not to salt.
+     * The default value is 5 milliseconds.
      *
      * @param randomSaltMaxValueMilliseconds the maximum random salt value for requests to be retried.
      * @throws IllegalArgumentException thrown if an error occurs
@@ -109,8 +109,6 @@ public class RetryWithOptions {
         this.randomSaltMaxValueMilliseconds = randomSaltMaxValueMilliseconds;
         return this;
     }
-
-
 
     /**
      * Gets the total wait time retry duration.

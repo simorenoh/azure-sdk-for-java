@@ -340,19 +340,19 @@ public class GoneAndRetryWithRetryPolicyTest {
         Mono<ShouldRetryResult> singleShouldRetry = goneAndRetryWithRetryPolicy.shouldRetry(retryWithException);
         ShouldRetryResult shouldRetryResult = singleShouldRetry.block();
         assertThat(shouldRetryResult.policyArg.getValue3()).isEqualTo(1);
-        validateRetryWithTimeRange(expectedDelayInMs, shouldRetryResult, null);
+        validateRetryWithTimeRange(expectedDelayInMs, shouldRetryResult, 5);
 
         singleShouldRetry = goneAndRetryWithRetryPolicy.shouldRetry(retryWithException);
         shouldRetryResult = singleShouldRetry.block();
         assertThat(shouldRetryResult.policyArg.getValue3()).isEqualTo(2);
         expectedDelayInMs = expectedDelayInMs * 2; //backoff multiplier
-        validateRetryWithTimeRange(expectedDelayInMs, shouldRetryResult, null);
+        validateRetryWithTimeRange(expectedDelayInMs, shouldRetryResult, 5);
 
         singleShouldRetry = goneAndRetryWithRetryPolicy.shouldRetry(retryWithException);
         shouldRetryResult = singleShouldRetry.block();
         assertThat(shouldRetryResult.policyArg.getValue3()).isEqualTo(3);
         expectedDelayInMs = expectedDelayInMs * 2; //backoff multiplier
-        validateRetryWithTimeRange(expectedDelayInMs, shouldRetryResult, null);
+        validateRetryWithTimeRange(expectedDelayInMs, shouldRetryResult, 5);
     }
 
     /**

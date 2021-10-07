@@ -24,7 +24,7 @@ import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static com.azure.cosmos.implementation.guava25.base.Preconditions.checkNotNull;
 
@@ -38,6 +38,8 @@ public class GoneAndRetryWithRetryPolicy implements IRetryPolicy {
 
     private volatile RetryWithException lastRetryWithException;
     private RetryContext retryContext;
+    private static final ThreadLocalRandom random = ThreadLocalRandom.current();
+
     public GoneAndRetryWithRetryPolicy(
         RxDocumentServiceRequest request,
         Integer waitTimeInSeconds,
@@ -316,7 +318,6 @@ public class GoneAndRetryWithRetryPolicy implements IRetryPolicy {
         public Mono<ShouldRetryResult> shouldRetry(Exception exception) {
             Duration backoffTime;
             Duration timeout;
-            Random random = new Random();
 
             if (!(exception instanceof RetryWithException)) {
                 logger.debug("Operation will NOT be retried. Current attempt {}, Exception: ", this.attemptCount,
